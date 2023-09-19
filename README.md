@@ -2,6 +2,8 @@
 
 A wordcount tracker for our PhD dissertations.
 
+![Word count progress](./plot.svg)
+
 ## Setup
 
 This assumes that you have your dissertation on GitHub and can use actions.
