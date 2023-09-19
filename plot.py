@@ -23,16 +23,17 @@ def get_dataframe(data_paths: List[str]) -> pd.DataFrame:
     df["datetime"] = pd.to_datetime(df["datetime"])
     return df
 
-
-def main():
-    data_paths = get_data_paths("data")
-    df = get_dataframe(data_paths)
-    print(df.head())
-
+def plot(df: pd.DataFrame):
     hue_order = sorted(list(df["name"].unique()))
     sns.lineplot(data=df, x="datetime", y="wordcount", hue="name", hue_order=hue_order)
     plt.tight_layout()
     plt.grid()
     plt.savefig("plot.svg")
+
+
+def main():
+    data_paths = get_data_paths("data")
+    df = get_dataframe(data_paths)
+    plot(df)
 
 main()
