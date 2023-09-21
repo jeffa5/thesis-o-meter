@@ -26,7 +26,10 @@ def get_dataframe(data_paths: List[str]) -> pd.DataFrame:
 def plot(df: pd.DataFrame):
     hue_order = sorted(list(df["name"].unique()))
     ax = sns.lineplot(data=df, x="datetime", y="wordcount", hue="name", hue_order=hue_order)
-    ax.axhline(60_000, color="gray")
+    ax.axhline(60_000, color="gray", label="Word limit")
+    ax.set(title="Thesis-o-meter", xlabel="Date & time", ylabel="Word count")
+    plt.xticks(rotation=30)
+    plt.legend()
     plt.tight_layout()
     plt.grid()
     plt.savefig("plot.svg")
