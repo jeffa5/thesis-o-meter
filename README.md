@@ -71,3 +71,7 @@ datetime,wordcount
 ```
 
 The `datetime` field is rfc3339 formatted.
+
+## Historic context
+
+https://web.archive.org/web/20060823213221/https://www.cl.cam.ac.uk/~akw27/thesisometer-explained.txt
