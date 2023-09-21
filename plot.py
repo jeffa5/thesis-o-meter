@@ -25,7 +25,8 @@ def get_dataframe(data_paths: List[str]) -> pd.DataFrame:
 
 def plot(df: pd.DataFrame):
     hue_order = sorted(list(df["name"].unique()))
-    sns.lineplot(data=df, x="datetime", y="wordcount", hue="name", hue_order=hue_order)
+    ax = sns.lineplot(data=df, x="datetime", y="wordcount", hue="name", hue_order=hue_order)
+    ax.axhline(60_000, color="gray")
     plt.tight_layout()
     plt.grid()
     plt.savefig("plot.svg")
