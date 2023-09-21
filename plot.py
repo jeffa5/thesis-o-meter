@@ -1,9 +1,9 @@
 import os
-import matplotlib.pyplot as plt
-import seaborn as sns
 from typing import List
 
+import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
 
 
 def get_data_paths(root: str) -> List[str]:
@@ -23,21 +23,33 @@ def get_dataframe(data_paths: List[str]) -> pd.DataFrame:
     df["datetime"] = pd.to_datetime(df["datetime"])
     return df
 
-def plot(df: pd.DataFrame):
-    hue_order = sorted(list(df["name"].unique()))
-    ax = sns.lineplot(data=df, x="datetime", y="wordcount", hue="name", hue_order=hue_order)
+
+def plot(df: pd.DataFrame, names: List[str], name_key: str, filename: str):
+    hue_order = names
+    plt.figure()
+    ax = sns.lineplot(
+        data=df, x="datetime", y="wordcount", hue=name_key, hue_order=hue_order
+    )
     ax.axhline(60_000, color="gray", label="Word limit")
     ax.set(title="Thesis-o-meter", xlabel="Date & time", ylabel="Word count")
     plt.xticks(rotation=30)
     plt.legend()
     plt.tight_layout()
     plt.grid()
-    plt.savefig("plot.svg")
+    plt.savefig(filename)
 
 
 def main():
     data_paths = get_data_paths("data")
     df = get_dataframe(data_paths)
-    plot(df)
+    names = sorted(list(df["name"].unique()))
+    plot(df, names, "name", "plot.svg")
+
+    # make an anonymous version for publishing
+    anon_names = range(1, len(names)+1)
+    rename_map = dict(zip(names, anon_names))
+    df["anon_name"] = df["name"].map(rename_map)
+    plot(df, anon_names, "anon_name", "anon.svg")
+
 
 main()
