@@ -37,18 +37,23 @@ def plot(df: pd.DataFrame, names: List[str], name_key: str, filename: str):
     plt.legend()
     plt.tight_layout()
     plt.grid()
+    print(f"Saving to {filename}")
     plt.savefig(filename)
 
 
 def main():
+    names = [
+        "apj39",
+    ]
     data_paths = get_data_paths("data")
     df = get_dataframe(data_paths)
-    names = sorted(list(df["name"].unique()))
     plot(df, names, "name", "plot.svg")
 
     # make an anonymous version for publishing
-    anon_names = range(1, len(names)+1)
-    rename_map = dict(zip(names, anon_names))
+    rename_map = {
+        "apj39": "apj39",
+    }
+    anon_names = list(rename_map.values())
     df["anon_name"] = df["name"].map(rename_map)
     plot(df, anon_names, "anon_name", "docs/anon.svg")
 
