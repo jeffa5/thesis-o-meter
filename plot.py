@@ -21,6 +21,7 @@ def get_dataframe(data_paths: List[str]) -> pd.DataFrame:
     dfs = [get_dataframe_single(path) for path in data_paths]
     df = pd.concat(dfs)
     df["datetime"] = pd.to_datetime(df["datetime"])
+    df["wordcount"] /= 1_000
     return df
 
 
@@ -30,8 +31,8 @@ def plot(df: pd.DataFrame, names: List[str], name_key: str, filename: str):
     ax = sns.lineplot(
         data=df, x="datetime", y="wordcount", hue=name_key, hue_order=hue_order
     )
-    ax.axhline(60_000, color="gray", label="Word limit")
-    ax.set(title="Thesis-o-meter", xlabel="Date & time", ylabel="Word count")
+    ax.axhline(60, color="gray", label="Word limit")
+    ax.set(xlabel="Date & time", ylabel="Word count (K)")
     plt.xticks(rotation=30)
     plt.legend()
     plt.tight_layout()
@@ -49,7 +50,7 @@ def main():
     anon_names = range(1, len(names)+1)
     rename_map = dict(zip(names, anon_names))
     df["anon_name"] = df["name"].map(rename_map)
-    plot(df, anon_names, "anon_name", "anon.svg")
+    plot(df, anon_names, "anon_name", "docs/anon.svg")
 
 
 main()
