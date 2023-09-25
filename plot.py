@@ -1,4 +1,5 @@
 import os
+import sys
 from typing import List
 
 import matplotlib.pyplot as plt
@@ -47,6 +48,11 @@ def main():
     ]
     data_paths = get_data_paths("data")
     df = get_dataframe(data_paths)
+    df_names = list(df["name"].unique())
+    if set(names) != set(df_names):
+        print(f"Names not equal to those found: {names} vs {df_names}")
+        sys.exit(1)
+
     plot(df, names, "name", "plot.svg")
 
     # make an anonymous version for publishing
