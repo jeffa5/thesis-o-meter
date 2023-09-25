@@ -59,6 +59,10 @@ def main():
     rename_map = {
         "apj39": "apj39",
     }
+    if set(names) != set(rename_map.keys()):
+        print(f"Not all names found in the rename_map: {names} vs {list(rename_map.keys())}")
+        sys.exit(1)
+
     anon_names = list(rename_map.values())
     df["anon_name"] = df["name"].map(rename_map)
     plot(df, anon_names, "anon_name", "docs/anon.svg")
