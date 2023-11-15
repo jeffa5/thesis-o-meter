@@ -30,7 +30,15 @@ def plot(df: pd.DataFrame, names: List[str], name_key: str, filename: str):
     hue_order = names
     plt.figure()
     ax = sns.lineplot(
-        data=df, x="datetime", y="wordcount", hue=name_key, hue_order=hue_order, style=name_key, markers=True,
+        data=df,
+        x="datetime",
+        y="wordcount",
+        hue=name_key,
+        hue_order=hue_order,
+        style=name_key,
+        style_order=hue_order,
+        markers=True,
+        drawstyle="steps-post",
     )
     ax.axhline(60, color="gray", label="Word limit")
     ax.set(xlabel="Date & time", ylabel="Word count (K)")
@@ -62,7 +70,9 @@ def main():
         "cjj39": "player2",
     }
     if set(names) != set(rename_map.keys()):
-        print(f"Not all names found in the rename_map: {names} vs {list(rename_map.keys())}")
+        print(
+            f"Not all names found in the rename_map: {names} vs {list(rename_map.keys())}"
+        )
         sys.exit(1)
 
     anon_names = list(rename_map.values())
