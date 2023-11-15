@@ -45,6 +45,7 @@ def plot(df: pd.DataFrame, names: List[str], name_key: str, filename: str):
 def main():
     names = [
         "apj39",
+        "cjj39",
     ]
     data_paths = get_data_paths("data")
     df = get_dataframe(data_paths)
@@ -58,6 +59,7 @@ def main():
     # make an anonymous version for publishing
     rename_map = {
         "apj39": "apj39",
+        "cjj39": "player2",
     }
     if set(names) != set(rename_map.keys()):
         print(f"Not all names found in the rename_map: {names} vs {list(rename_map.keys())}")
