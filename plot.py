@@ -38,7 +38,6 @@ def plot(df: pd.DataFrame, names: List[str], name_key: str, filename: str):
         hue_order=hue_order,
         style=name_key,
         style_order=hue_order,
-        markers=True,
         drawstyle="steps-post",
     )
     ax.axhline(60, color="gray", label="Word limit")
