@@ -29,6 +29,7 @@ def get_dataframe(data_paths: List[str]) -> pd.DataFrame:
 def plot(df: pd.DataFrame, names: List[str], name_key: str, filename: str):
     hue_order = names
     plt.figure()
+    plt.grid()
     ax = sns.lineplot(
         data=df,
         x="datetime",
@@ -45,7 +46,6 @@ def plot(df: pd.DataFrame, names: List[str], name_key: str, filename: str):
     plt.xticks(rotation=30)
     plt.legend()
     plt.tight_layout()
-    plt.grid()
     print(f"Saving to {filename}")
     plt.savefig(filename)
 
