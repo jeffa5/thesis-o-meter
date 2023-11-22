@@ -44,7 +44,7 @@ def plot(df: pd.DataFrame, names: List[str], name_key: str, filename: str):
     ax.axhline(60, color="gray", label="Word limit")
     ax.set(xlabel="Date & time", ylabel="Word count (K)")
     plt.xticks(rotation=30)
-    plt.legend()
+    plt.legend(loc="upper left")
     plt.tight_layout()
     print(f"Saving to {filename}")
     plt.savefig(filename)
