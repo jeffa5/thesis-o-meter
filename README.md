@@ -62,7 +62,7 @@ jobs:
           git push
 ```
 
-This assumes a deploy key is setup to give read and write access to the thesis-o-meter repo and the private key is set as a secret for the actions run in `DEPLOY_KEY`.
+This assumes a deploy key is setup to give read and write access to the thesis-o-meter repo and the private key is set as a repository secret for the actions run in `DEPLOY_KEY`.
 
 ### Deploy key
 
