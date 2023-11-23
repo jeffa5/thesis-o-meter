@@ -66,7 +66,7 @@ def main():
     # make an anonymous version for publishing
     rename_map = {
         "apj39": "apj39",
-        "cjj39": "player2",
+        "cjj39": "cjj39",
     }
     if set(names) != set(rename_map.keys()):
         print(
