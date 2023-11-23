@@ -45,14 +45,19 @@ jobs:
 
       - name: Get and submit the wordcount
         run: |
+          # REPLACE WORDCOUNTING
           wordcount=$(nix run .#wordcount)
           datetime=$(date --rfc-3339=seconds | tr ' ' 'T')
           echo "$datetime,$wordcount"
           cd thesis-o-meter
+          # REPLACE USER
           echo "$datetime,$wordcount" >> data/<user>.csv
+          # REPLACE USER
           git add data/<user>.csv
+          # make the commit appear to come from github actions in the GitHub UI
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # REPLACE USER
           git commit -m "Update <user> wordcount"
           git push
 ```
