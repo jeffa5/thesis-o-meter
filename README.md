@@ -64,9 +64,7 @@ jobs:
           # REPLACE USER
           git commit -m "Update <user> wordcount"
           # keep trying in the face of concurrent actions
-          while ! git push; do
-            git pull --rebase
-          done
+          until git push; do git pull --rebase; done
 ```
 
 With the corresponding basic nix flake:
