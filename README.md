@@ -35,6 +35,11 @@ jobs:
       - name: Run the Magic Nix Cache
         uses: DeterminateSystems/magic-nix-cache-action@v1
 
+      - name: Get the wordcount
+        run: |
+          # REPLACE WORDCOUNTING
+          nix build .#wordcount
+
       - name: Checkout thesis-o-meter
         uses: actions/checkout@v3
         with:
@@ -43,10 +48,9 @@ jobs:
           path: thesis-o-meter
           ssh-key: ${{ secrets.DEPLOY_KEY }}
 
-      - name: Get and submit the wordcount
+      - name: Submit the wordcount
         run: |
-          # REPLACE WORDCOUNTING
-          wordcount=$(nix run .#wordcount)
+          wordcount=$(cat wordcount)
           datetime=$(date --rfc-3339=seconds | tr ' ' 'T')
           echo "$datetime,$wordcount"
           cd thesis-o-meter
@@ -59,7 +63,10 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # REPLACE USER
           git commit -m "Update <user> wordcount"
-          git push
+          # keep trying in the face of concurrent actions
+          while ! git push; do
+            git pull --rebase
+          done
 ```
 
 With the corresponding basic nix flake:
@@ -70,8 +77,8 @@ With the corresponding basic nix flake:
   };
   outputs = { self, flake-utils, nixpkgs }:
     flake-utils.lib.eachDefaultSystem (system:
-      let 
-      pkgs = nixpkgs.legacyPackages.${system}; 
+      let
+      pkgs = nixpkgs.legacyPackages.${system};
       wordcount = pkgs.writeShellScriptBin "wordcount" ''
         wc -w dissertation.tex | sed 's/ .*$//'
       '';
