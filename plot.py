@@ -78,7 +78,11 @@ def main():
         print(f"Names not equal to those found: {names} vs {df_names}")
         sys.exit(1)
 
-    finishes = [datetime.date(2024, 4, 1), datetime.date(2024, 2, 1)]
+    finishes = [
+        datetime.date(2024, 4, 1),
+        datetime.date(2024, 2, 1),
+        datetime.date(2024, 10, 1),
+    ]
 
     plot(
         df,
