@@ -53,9 +53,11 @@ def plot(
     )
     ax.axhline(60, color="gray", label="Word limit")
     for line, finish in zip(ax.get_lines(), finishes):
-        ax.axvline(finish, color=line.get_color(), linestyle=line.get_linestyle())
+        if finish:
+            ax.axvline(finish, color=line.get_color(), linestyle=line.get_linestyle())
     for finish in finishes:
-        ax.annotate(" 3y", (finish, 55))
+        if finish:
+            ax.annotate(" 3y", (finish, 55))
     ax.set(xlabel="Date & time", ylabel="Word count (K)")
     plt.xticks(rotation=30)
     plt.legend(loc="upper left")
@@ -82,6 +84,7 @@ def main():
         datetime.date(2024, 4, 1),
         datetime.date(2024, 2, 1),
         datetime.date(2024, 10, 1),
+        None
     ]
 
     plot(
