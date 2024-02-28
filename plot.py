@@ -54,7 +54,7 @@ def plot(
     ax.axhline(60, color="gray", label="Word limit")
     for line, finish in zip(ax.get_lines(), finishes):
         if finish:
-            ax.axvline(finish, color=line.get_color(), linestyle=line.get_linestyle())
+            ax.axvline(finish, color="gray", linestyle=line.get_linestyle())
     for finish in finishes:
         if finish:
             ax.annotate(" 3y", (finish, 55))
