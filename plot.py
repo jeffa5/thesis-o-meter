@@ -47,6 +47,7 @@ def plot(
         style_order=hue_order,
         drawstyle="steps-post",
     )
+    ax.set_xlim(df["datetime"].min(), df["datetime"].max() + datetime.timedelta(days=60))
     ax.axhline(60, color="gray", label="Word limit")
     for line, finish in zip(ax.get_lines(), finishes):
         ax.axvline(finish, color=line.get_color(), linestyle=line.get_linestyle())
