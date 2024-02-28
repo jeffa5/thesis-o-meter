@@ -1,3 +1,4 @@
+import datetime
 import os
 import sys
 from typing import List
@@ -26,7 +27,13 @@ def get_dataframe(data_paths: List[str]) -> pd.DataFrame:
     return df
 
 
-def plot(df: pd.DataFrame, names: List[str], name_key: str, filename: str):
+def plot(
+    df: pd.DataFrame,
+    names: List[str],
+    name_key: str,
+    filename: str,
+    finishes: List[datetime.date],
+):
     hue_order = names
     plt.figure()
     plt.grid()
@@ -41,6 +48,8 @@ def plot(df: pd.DataFrame, names: List[str], name_key: str, filename: str):
         drawstyle="steps-post",
     )
     ax.axhline(60, color="gray", label="Word limit")
+    for line, finish in zip(ax.get_lines(), finishes):
+        ax.axvline(finish, color=line.get_color(), linestyle=line.get_linestyle())
     ax.set(xlabel="Date & time", ylabel="Word count (K)")
     plt.xticks(rotation=30)
     plt.legend(loc="upper left")
@@ -61,7 +70,15 @@ def main():
         print(f"Names not equal to those found: {names} vs {df_names}")
         sys.exit(1)
 
-    plot(df, names, "name", "plot.svg")
+    finishes = [datetime.date(2024, 4, 1), datetime.date(2024, 2, 1)]
+
+    plot(
+        df,
+        names,
+        "name",
+        "plot.svg",
+        finishes,
+    )
 
     # make an anonymous version for publishing
     rename_map = {
@@ -76,7 +93,7 @@ def main():
 
     anon_names = list(rename_map.values())
     df["anon_name"] = df["name"].map(rename_map)
-    plot(df, anon_names, "anon_name", "docs/anon.svg")
+    plot(df, anon_names, "anon_name", "docs/anon.svg", finishes)
 
 
 main()
