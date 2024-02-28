@@ -81,8 +81,8 @@ def main():
         sys.exit(1)
 
     finishes = [
-        datetime.date(2024, 4, 1),
-        datetime.date(2024, 2, 1),
+        datetime.date(2024, 5, 1),
+        datetime.date(2024, 3, 1),
         datetime.date(2024, 10, 1),
         None
     ]
