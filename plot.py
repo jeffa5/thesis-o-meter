@@ -64,6 +64,8 @@ def main():
     names = [
         "apj39",
         "cjj39",
+        "af691",
+        "jb2328",
     ]
     data_paths = get_data_paths("data")
     df = get_dataframe(data_paths)
@@ -86,6 +88,8 @@ def main():
     rename_map = {
         "apj39": "apj39",
         "cjj39": "cjj39",
+        "af691": "af691",
+        "jb2328": "jb2328",
     }
     if set(names) != set(rename_map.keys()):
         print(
