@@ -50,6 +50,8 @@ def plot(
     ax.axhline(60, color="gray", label="Word limit")
     for line, finish in zip(ax.get_lines(), finishes):
         ax.axvline(finish, color=line.get_color(), linestyle=line.get_linestyle())
+    for finish in finishes:
+        ax.annotate(" 3y", (finish, 55))
     ax.set(xlabel="Date & time", ylabel="Word count (K)")
     plt.xticks(rotation=30)
     plt.legend(loc="upper left")
