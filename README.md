@@ -30,10 +30,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v4
+        uses: DeterminateSystems/nix-installer-action@v9
 
       - name: Run the Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v1
+        uses: DeterminateSystems/magic-nix-cache-action@v3
 
       - name: Get the wordcount
         run: |
