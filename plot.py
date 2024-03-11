@@ -55,9 +55,9 @@ def plot(
     for line, finish in zip(ax.get_lines(), finishes):
         if finish:
             ax.axvline(finish, color="gray", linestyle=line.get_linestyle())
-    for finish in finishes:
+    for (name, finish) in zip(names, finishes):
         if finish:
-            ax.annotate(" 3y", (finish, 55))
+            ax.annotate(f" 3y {name}", (finish, 55))
     ax.set(xlabel="Date & time", ylabel="Word count (K)")
     plt.xticks(rotation=30)
     plt.legend(loc="upper left")
