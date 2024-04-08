@@ -70,6 +70,7 @@ def main():
     names = [
         "apj39",
         "cjj39",
+        "aati2",
         "af691",
         "jb2328",
     ]
@@ -99,6 +100,7 @@ def main():
     rename_map = {
         "apj39": "apj39",
         "cjj39": "cjj39",
+        "aati2": "anon",
         "af691": "af691",
         "jb2328": "jb2328",
     }
