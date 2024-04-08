@@ -29,12 +29,22 @@ def get_dataframe(data_paths: List[str]) -> pd.DataFrame:
 
 def plot(
     df: pd.DataFrame,
-    names: List[str],
+    given_names: List[str],
     name_key: str,
     filename: str,
     finishes: List[datetime.date],
 ):
+    names = []
+    # don't include names for those that have no line yet
+    for name in given_names:
+        data = df[df["name"] == name]
+        if len(data) > 1:
+            names.append(name)
+
+    df = df[df["name"].isin(names)]
+
     hue_order = names
+
     plt.figure()
     plt.grid()
     ax = sns.lineplot(
