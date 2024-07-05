@@ -58,8 +58,8 @@ def plot(
         drawstyle="steps-post",
     )
     ax.set_xlim(
-        df["datetime"].min() - datetime.timedelta(days=10),
-        df["datetime"].max() + datetime.timedelta(days=60),
+        df["datetime"].min() - datetime.timedelta(days=7),
+        df["datetime"].max() + datetime.timedelta(days=7),
     )
     ax.axhline(60, color="gray", label="Word limit")
     for line, finish in zip(ax.get_lines(), finishes):
