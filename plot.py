@@ -1,7 +1,7 @@
 import datetime
 import os
 import sys
-from typing import List
+from typing import List, Tuple
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -33,6 +33,7 @@ def plot(
     name_key: str,
     filename: str,
     finishes: List[datetime.date],
+    submissions: List[Tuple[datetime.date, int]],
 ):
     names = []
     # don't include names for those that have no line yet
@@ -65,10 +66,22 @@ def plot(
     for line, finish in zip(ax.get_lines(), finishes):
         if finish:
             ax.axvline(finish, color="gray", linestyle=line.get_linestyle())
-    for (name, finish) in zip(names, finishes):
+    for name, finish in zip(names, finishes):
         if finish:
             ax.annotate(f" 3y {name}", (finish, 55))
     ax.set(xlabel="Date & time", ylabel="Word count (K)")
+
+    plt.scatter(
+        [s[0] for s in submissions],
+        [s[1] for s in submissions],
+        marker="*",
+        color="gold",
+        zorder=5,
+        s=100,
+        edgecolors="black",
+        linewidths=0.5,
+    )
+
     plt.xticks(rotation=30)
     plt.legend(loc="upper left")
     plt.tight_layout()
@@ -95,8 +108,24 @@ def main():
         datetime.date(2024, 4, 1),
         datetime.date(2024, 2, 1),
         datetime.date(2024, 10, 1),
-        None
+        None,
     ]
+
+
+    def get_submission_row(name, year, month, day):
+        d = df
+        d = d[d["name"] == name]
+        d = d[
+            d["datetime"]
+            < pd.Timestamp(year=year, month=month, day=day + 1, tz="UTC", unit="ns")
+        ]  # plus one day
+        return d.tail(1)
+
+    submission_dates = {"apj39": (2024, 8, 7)}
+    submission_rows = [
+        get_submission_row(n, y, m, d) for n, (y, m, d) in submission_dates.items()
+    ]
+    submissions = [(s["datetime"], s["wordcount"]) for s in submission_rows]
 
     plot(
         df,
@@ -104,6 +133,7 @@ def main():
         "name",
         "plot.svg",
         finishes,
+        submissions,
     )
 
     # make an anonymous version for publishing
@@ -122,7 +152,7 @@ def main():
 
     anon_names = list(rename_map.values())
     df["anon_name"] = df["name"].map(rename_map)
-    plot(df, anon_names, "anon_name", "docs/anon.svg", finishes)
+    plot(df, anon_names, "anon_name", "docs/anon.svg", finishes, submissions)
 
 
 main()
