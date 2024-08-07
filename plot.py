@@ -111,7 +111,6 @@ def main():
         None,
     ]
 
-
     def get_submission_row(name, year, month, day):
         d = df
         d = d[d["name"] == name]
