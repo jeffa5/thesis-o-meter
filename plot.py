@@ -1,7 +1,7 @@
 import datetime
 import os
 import sys
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -32,7 +32,7 @@ def plot(
     given_names: List[str],
     name_key: str,
     filename: str,
-    finishes: List[datetime.date],
+    finishes: Dict[str, datetime.date],
     submissions: List[Tuple[datetime.date, int]],
 ):
     names = []
@@ -63,12 +63,12 @@ def plot(
         df["datetime"].max() + datetime.timedelta(days=7),
     )
     ax.axhline(60, color="gray", label="Word limit")
-    for line, finish in zip(ax.get_lines(), finishes):
-        if finish:
+    for line, name in zip(ax.get_lines(), names):
+        if name in finishes:
+            finish = finishes[name]
             ax.axvline(finish, color="gray", linestyle=line.get_linestyle())
-    for name, finish in zip(names, finishes):
-        if finish:
             ax.annotate(f" 3y {name}", (finish, 55))
+
     ax.set(xlabel="Date & time", ylabel="Word count (K)")
 
     plt.scatter(
@@ -93,9 +93,9 @@ def main():
     names = [
         "apj39",
         "cjj39",
+        "jb2328",
         "aati2",
         "af691",
-        "jb2328",
     ]
     data_paths = get_data_paths("data")
     df = get_dataframe(data_paths)
@@ -104,12 +104,12 @@ def main():
         print(f"Names not equal to those found: {names} vs {df_names}")
         sys.exit(1)
 
-    finishes = [
-        datetime.date(2024, 4, 1),
-        datetime.date(2024, 2, 1),
-        datetime.date(2024, 10, 1),
-        None,
-    ]
+    finishes = {
+        "apj39": datetime.date(2024, 4, 1),
+        "cjj39": datetime.date(2024, 2, 1),
+        "aati2": datetime.date(2024, 10, 1),
+        "jb2328": datetime.date(2025, 10, 1),
+    }
 
     def get_submission_row(name, year, month, day):
         d = df
