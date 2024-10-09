@@ -75,7 +75,7 @@ def plot(
         [s[0] for s in submissions],
         [s[1] for s in submissions],
         marker="*",
-        color="gold",
+        color="silver",
         zorder=5,
         s=100,
         edgecolors="black",
