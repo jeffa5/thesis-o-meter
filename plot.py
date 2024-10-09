@@ -1,7 +1,8 @@
 import datetime
 import os
 import sys
-from typing import List, Tuple, Dict
+from collections import defaultdict
+from typing import Dict, List, Tuple
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -33,7 +34,7 @@ def plot(
     name_key: str,
     filename: str,
     finishes: Dict[str, datetime.date],
-    submissions: List[Tuple[datetime.date, int]],
+    submissions: List[Tuple[datetime.date, int, str]],
 ):
     names = []
     # don't include names for those that have no line yet
@@ -71,16 +72,21 @@ def plot(
 
     ax.set(xlabel="Date & time", ylabel="Word count (K)")
 
-    plt.scatter(
-        [s[0] for s in submissions],
-        [s[1] for s in submissions],
-        marker="*",
-        color="silver",
-        zorder=5,
-        s=100,
-        edgecolors="black",
-        linewidths=0.5,
-    )
+    subs_by_color = defaultdict(list)
+    for sub in submissions:
+        subs_by_color[sub[2]].append([sub[0], sub[1]])
+
+    for color, subs in subs_by_color.items():
+        plt.scatter(
+            [s[0] for s in subs],
+            [s[1] for s in subs],
+            marker="*",
+            color=color,
+            zorder=5,
+            s=100,
+            edgecolors="black",
+            linewidths=0.5,
+        )
 
     plt.xticks(rotation=30)
     plt.legend(loc="upper left")
@@ -124,7 +130,13 @@ def main():
     submission_rows = [
         get_submission_row(n, y, m, d) for n, (y, m, d) in submission_dates.items()
     ]
-    submissions = [(s["datetime"], s["wordcount"]) for s in submission_rows]
+    submissions = [(s["datetime"], s["wordcount"], "silver") for s in submission_rows]
+
+    correction_dates = {}
+    correction_rows = [
+        get_submission_row(n, y, m, d) for n, (y, m, d) in correction_dates.items()
+    ]
+    submissions += [(s["datetime"], s["wordcount"], "gold") for s in correction_rows]
 
     plot(
         df,
