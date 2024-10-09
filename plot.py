@@ -86,6 +86,7 @@ def plot(
             s=100,
             edgecolors="black",
             linewidths=0.5,
+            label="Submission",
         )
 
     plt.xticks(rotation=30)
