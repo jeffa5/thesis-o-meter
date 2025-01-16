@@ -131,13 +131,7 @@ def main():
     submission_rows = [
         get_submission_row(n, y, m, d) for n, (y, m, d) in submission_dates.items()
     ]
-    submissions = [(s["datetime"], s["wordcount"], "silver") for s in submission_rows]
-
-    correction_dates = {}
-    correction_rows = [
-        get_submission_row(n, y, m, d) for n, (y, m, d) in correction_dates.items()
-    ]
-    submissions += [(s["datetime"], s["wordcount"], "gold") for s in correction_rows]
+    submissions = [(s["datetime"], s["wordcount"], "gold") for s in submission_rows]
 
     plot(
         df,
